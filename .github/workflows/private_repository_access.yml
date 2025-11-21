@@ -1,0 +1,20 @@
+name: Setup Private Go Packages
+inputs:
+  organization:
+    description: 'The GitHub organization name for private repos.'
+    required: true
+  token:
+    description: 'The token (PAT or GITHUB_TOKEN) with read access to private repos.'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Configure Go and Git for Private Repos
+      shell: bash
+      env:
+        ORGANIZATION: ${{ inputs.organization }}
+        READ_REPOS_TOKEN: ${{ inputs.token }}
+      run: |
+        echo "Setting GOPRIVATE for $ORGANIZATION"
+        go env -w GOPRIVATE=github.com/$ORGANIZATION
+        git config --global url."https://$ORGANIZATION:$READ_REPOS_TOKEN@github.com".insteadOf "https://github.com"

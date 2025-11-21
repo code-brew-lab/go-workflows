@@ -4,13 +4,7 @@ on:
       go-version:
         required: true
         type: string
-      organization:
-        required: false
-        type: string
-    secrets:
-      read-repos-token:
-        required: false
-
+        
 jobs:
   gosec:
     runs-on: ubuntu-latest
@@ -21,14 +15,6 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: ${{ inputs.go-version }}
-
-      - name: Setup private packages
-        env:
-          ORGANIZATION: ${{ inputs.organization }}
-          READ_REPOS_TOKEN: ${{ secrets.read-repos-token }}
-        run: |
-          go env -w GOPRIVATE=github.com/$ORGANIZATION
-          git config --global url."https://$ORGANIZATION:$READ_REPOS_TOKEN@github.com".insteadOf "https://github.com"
 
       - name: Install GoSec
         run: go install github.com/securego/gosec/v2/cmd/gosec@latest
@@ -45,14 +31,6 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: ${{ inputs.go-version }}
-
-      - name: Setup private packages
-        env:
-          ORGANIZATION: ${{ inputs.organization }}
-          READ_REPOS_TOKEN: ${{ secrets.read-repos-token }}
-        run: |
-          go env -w GOPRIVATE=github.com/$ORGANIZATION
-          git config --global url."https://$ORGANIZATION:$READ_REPOS_TOKEN@github.com".insteadOf "https://github.com"
 
       - name: Install GoVulnCheck
         run: go install golang.org/x/vuln/cmd/govulncheck@latest
