@@ -23,7 +23,7 @@ jobs:
           go-version: ${{ inputs.go-version }}
 
       - name: Setup private packages
-        uses: code-brew-lab/go-workflows/.github/actions/private_repository_access.yml@master
+        uses: code-brew-lab/go-workflows/.github/actions/private_repo_accessl@master
         with:
           organization: ${{ inputs.organization }}
           token: ${{ secrets.read-repos-token }}
@@ -45,7 +45,7 @@ jobs:
           go-version: ${{ inputs.go-version }}
 
       - name: Setup private packages
-        uses: code-brew-lab/go-workflows/.github/actions/private_repository_access.yml@master
+        uses: code-brew-lab/go-workflows/.github/actions/private_repo_accessl@master
         with:
           organization: ${{ inputs.organization }}
           token: ${{ secrets.read-repos-token }}
