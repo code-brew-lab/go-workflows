@@ -4,7 +4,13 @@ on:
       go-version:
         required: true
         type: string
-        
+      organization:
+        required: true
+        type: string
+    secrets:
+      read-repos-token:
+        required: true
+
 jobs:
   gosec:
     runs-on: ubuntu-latest
@@ -15,6 +21,12 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: ${{ inputs.go-version }}
+
+      - name: Setup private packages
+        uses: code-brew-lab/go-workflows/.github/actions/private_repository_access@master
+        with:
+          organization: ${{ inputs.organization }}
+          token: ${{ secrets.read-repos-token }}
 
       - name: Install GoSec
         run: go install github.com/securego/gosec/v2/cmd/gosec@latest
@@ -31,6 +43,12 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: ${{ inputs.go-version }}
+
+      - name: Setup private packages
+        uses: code-brew-lab/go-workflows/.github/actions/private_repository_access@master
+        with:
+          organization: ${{ inputs.organization }}
+          token: ${{ secrets.read-repos-token }}
 
       - name: Install GoVulnCheck
         run: go install golang.org/x/vuln/cmd/govulncheck@latest
